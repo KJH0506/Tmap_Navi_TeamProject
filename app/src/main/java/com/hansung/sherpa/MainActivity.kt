@@ -15,3 +15,5 @@ class MainActivity : AppCompatActivity() {
             NaverMapSdk.NaverCloudPlatformClient(BuildConfig.CLIENT_ID) // 본인 api key
     }
 }
+
+// test commit hihi 효찬이
