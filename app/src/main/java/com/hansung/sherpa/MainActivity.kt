@@ -13,7 +13,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         NaverMapSdk.getInstance(this).client =
             NaverMapSdk.NaverCloudPlatformClient(BuildConfig.CLIENT_ID) // 본인 api key
+
+
+
+
     }
 }
 
 // test commit hihi 효찬이
+// test commit KJH-1
