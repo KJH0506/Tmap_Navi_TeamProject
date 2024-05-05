@@ -61,4 +61,9 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation("com.naver.maps:map-sdk:3.18.0")
+
+    // for api request
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
 }
