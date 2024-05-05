@@ -17,6 +17,7 @@ package com.hansung.sherpa.Geocoding
 import android.net.Uri
 import android.util.Log
 import com.cookandroid.mapsdkexercise.Geocoding.Geocoding
+import com.hansung.sherpa.BuildConfig
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,7 +27,7 @@ class GeocodingAPI(private val address: String) {
     fun request(){
         val encodedAddress : String = Uri.encode(address)
         GeocodingRetrofitManager.getGeocodingServiceInstance()
-            .geocoding("e8wHh2tya84M88aReEpXCa5XTQf3xgo01aZG39k5","1", encodedAddress)
+            .geocoding(BuildConfig.TMAP_APP_KEY,"1", encodedAddress)
             .enqueue(object : Callback<Geocoding> {
                 override fun onResponse(call: Call<Geocoding>, response: Response<Geocoding>) {
                     if(response.isSuccessful) {

@@ -6,6 +6,8 @@ plugins {
 }
 
 val clientId = getClientId("CLIENT_ID")
+val tmapAppKey = getTmapAppKey("TMAP_APP_KEY")
+
 android {
 
     namespace = "com.hansung.sherpa"
@@ -20,6 +22,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "CLIENT_ID", clientId)
+        buildConfigField("String", "TMAP_APP_KEY", tmapAppKey)
         manifestPlaceholders["CLIENT_ID"] = clientId
     }
 
@@ -47,6 +50,10 @@ android {
 }
 
 fun getClientId(propertyKey : String) : String{
+    return gradleLocalProperties(rootDir).getProperty(propertyKey)
+}
+
+fun getTmapAppKey(propertyKey : String) : String{
     return gradleLocalProperties(rootDir).getProperty(propertyKey)
 }
 
