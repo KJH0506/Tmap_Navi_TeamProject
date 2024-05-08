@@ -1,4 +1,4 @@
-package com.cookandroid.mapsdkexercise.Geocoding
+package com.hansung.sherpa.geocoding
 
 import com.google.gson.annotations.SerializedName
 

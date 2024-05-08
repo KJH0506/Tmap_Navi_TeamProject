@@ -12,11 +12,10 @@
 
  */
 
-package com.hansung.sherpa.Geocoding
+package com.hansung.sherpa.geocoding
 
 import android.net.Uri
 import android.util.Log
-import com.cookandroid.mapsdkexercise.Geocoding.Geocoding
 import com.hansung.sherpa.BuildConfig
 import retrofit2.Call
 import retrofit2.Callback

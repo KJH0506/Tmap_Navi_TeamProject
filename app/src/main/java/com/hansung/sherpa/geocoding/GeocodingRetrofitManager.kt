@@ -1,6 +1,5 @@
-package com.hansung.sherpa.Geocoding
+package com.hansung.sherpa.geocoding
 
-import com.cookandroid.mapsdkexercise.Geocoding.GeocodingService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -8,7 +7,7 @@ class GeocodingRetrofitManager private constructor() {
     companion object {
         @Volatile private var instance : Retrofit? = null
         @Volatile private var geocodingService : GeocodingService? = null
-        fun getInstance() : Retrofit {
+        private fun getInstance() : Retrofit {
             if (instance == null) {
                 synchronized(this) {
                     if (instance == null) {

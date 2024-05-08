@@ -1,4 +1,4 @@
-package com.cookandroid.mapsdkexercise.Geocoding
+package com.hansung.sherpa.geocoding
 
 import retrofit2.Call
 import retrofit2.http.GET
