@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">sherpa</string>
     <string name="route_base_url">https://apis.openapi.sk.com/</string>
+    <string name="departure_textView_hint">출발지를 입력하세요.</string>
+    <string name="search_button_contentDescription">피그마에서 제작한 버튼 이미지를 사용한다.</string>
 </resources>

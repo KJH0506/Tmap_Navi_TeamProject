@@ -30,11 +30,78 @@
         app:layout_constraintEnd_toEndOf="parent"
         />-->
 
+
+    <!--
+    수정 1. 키 엔터하면 줄바꿈이 된다. 버튼 클릭과 동일한 옵션을 주어야 한다.
+    수정 2. 버튼 옵션 설정
+    -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map_fragment"
+        android:name="com.naver.maps.map.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.naver.maps.map.MapFragment" >
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="-16dp">
+
     </androidx.fragment.app.FragmentContainerView>
+
+    <FrameLayout
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!--
+        레이아웃 너비 높이 295dp, 55dp (임의로 설정 수정 가능성 있음)
+        EditText의 상단과의 간격 30으로 설정 (임의로 설정 수정 가능성 있음)
+        Edit Text의 색상 하얀색(#FFFFFF)
+        입력 전에는 "출발지를 입력하세요 문구가 나온다."
+        글자 크기는 25sp
+        글자 수 길어지면 '...'로 문구 생략
+        -->
+    <EditText
+        android:id="@+id/departure_textView"
+        android:layout_width="295dp"
+        android:layout_height="55dp"
+        android:paddingStart="10dp"
+
+        android:background="@color/white"
+        android:ellipsize="end"
+
+        android:gravity="center_vertical"
+        android:hint="@string/departure_textView_hint"
+
+        android:textSize="25sp"
+        android:inputType="text"
+
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toStartOf="@+id/search_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/map_fragment" />
+
+    <!--
+     버튼 이미지는 피그마 이미지 사용
+     contentDescription은 코드 주의 표시 수를 줄이기 위해 첨부(버튼에 대한 정보를 적는 구역)
+     이미지 크기와 버튼 크기는 완정 동일(틀어지면 패딩 공간이 회색으로 나온다.)
+     -->
+
+    <ImageButton
+        android:id="@+id/search_button"
+        android:layout_width="65dp"
+        android:layout_height="55dp"
+
+        android:scaleType="center"
+
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="15dp"
+        android:cursorVisible="false"
+
+        android:src="@drawable/destination_input_submit"
+        android:contentDescription="@string/search_button_contentDescription"
+
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/map" />
+  
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
