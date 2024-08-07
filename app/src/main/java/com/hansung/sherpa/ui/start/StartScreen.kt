@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.hansung.sherpa.R
+import com.hansung.sherpa.SherpaScreen
 
 @Composable
 fun StartScreen(navController: NavController = rememberNavController(), modifier: Modifier = Modifier) {
@@ -39,7 +40,7 @@ fun StartScreen(navController: NavController = rememberNavController(), modifier
 
             Column {
                 TextButton(
-                    onClick = {},
+                    onClick = { navController.navigate("${SherpaScreen.Login.name}")},
                     colors= ButtonColors(
                         contentColor = Color.White,
                         containerColor = Color.Black,

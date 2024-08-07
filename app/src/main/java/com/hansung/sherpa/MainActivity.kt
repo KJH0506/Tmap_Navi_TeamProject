@@ -27,6 +27,7 @@ import com.hansung.sherpa.gps.GpsLocationSource
 import com.hansung.sherpa.navigation.MyOnLocationChangeListener
 import com.hansung.sherpa.navigation.Navigation
 import com.hansung.sherpa.navigation.OnLocationChangeManager
+import com.hansung.sherpa.ui.login.LoginScreen
 import com.hansung.sherpa.ui.start.StartScreen
 import com.hansung.sherpa.ui.search.SearchScreen
 import com.hansung.sherpa.ui.specificroute.SpecificRouteScreen
@@ -70,10 +71,13 @@ class MainActivity : ComponentActivity(), OnMapReadyCallback {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = SherpaScreen.Home.name
+                        startDestination = SherpaScreen.Start.name
                     ){
                         composable(route = "${SherpaScreen.Start.name}"){
                             StartScreen(navController, Modifier.padding(innerPadding))
+                        }
+                        composable(route = "${SherpaScreen.Login.name}"){
+                            LoginScreen(navController, Modifier.padding(innerPadding))
                         }
                         composable(route = "${SherpaScreen.Home.name}"){
                             HomeScreen(navController, Modifier.padding(innerPadding))
