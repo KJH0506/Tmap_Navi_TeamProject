@@ -49,7 +49,7 @@ fun StartScreen(navController: NavController = rememberNavController(), modifier
                     modifier = Modifier.width(200.dp)
                 ){
                     Text(
-                        text = "로그인 하기",
+                        text = "로그인",
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -65,7 +65,7 @@ fun StartScreen(navController: NavController = rememberNavController(), modifier
                     modifier = Modifier.width(200.dp)
                 ){
                     Text(
-                        text = "로그인 하기",
+                        text = "회원가입",
                         fontWeight = FontWeight.Bold,
                     )
                 }
