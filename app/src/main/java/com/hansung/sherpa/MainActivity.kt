@@ -46,10 +46,7 @@ class MainActivity : ComponentActivity(), OnMapReadyCallback {
 
     private lateinit var naverMap: NaverMap
 
-    private val LOCATION_PERMISSION_REQUEST_CODE = 1000
     private lateinit var locationSource: FusedLocationSource
-    private lateinit var destinationTextView: EditText // 목적지 textview
-    private lateinit var searchButton: ImageButton // 검색 버튼
     private val markerIcon = OverlayImage.fromResource(com.naver.maps.map.R.drawable.navermap_location_overlay_icon)
 
     // 내비게이션 안내 값을 전송하기 위함

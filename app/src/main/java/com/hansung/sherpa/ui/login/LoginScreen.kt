@@ -82,6 +82,9 @@ fun LoginScreen(navController: NavController = rememberNavController(), modifier
     }
 }
 
+/**
+ * 보호자 로그인 구성품
+ */
 @Composable
 fun CaregiverArea(navController: NavController) {
     var idValue by remember { mutableStateOf("") }
@@ -110,6 +113,9 @@ fun CaregiverArea(navController: NavController) {
     }
 }
 
+/**
+ * 사용자 로그인 구성품
+ */
 @Composable
 fun ProtegeArea(navController: NavController) {
 

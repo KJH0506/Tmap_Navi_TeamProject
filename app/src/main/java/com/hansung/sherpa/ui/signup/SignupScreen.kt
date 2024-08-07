@@ -48,6 +48,9 @@ fun SignupScreen(navController: NavController = rememberNavController(), modifie
     }
 }
 
+/**
+ * 보호자 회원가입 관련 구성품
+ */
 @Composable
 fun CaregiverArea(navController: NavController){
     var idValue by remember { mutableStateOf("") }
@@ -89,6 +92,9 @@ fun CaregiverArea(navController: NavController){
     }
 }
 
+/**
+ * 사용자 회원가입 구성품
+ */
 @Composable
 fun ProtegeArea(navController: NavController) {
     var idValue by remember { mutableStateOf("") }
