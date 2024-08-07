@@ -7,8 +7,6 @@ import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
-import android.widget.ImageButton
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -29,7 +27,7 @@ import com.hansung.sherpa.navigation.Navigation
 import com.hansung.sherpa.navigation.OnLocationChangeManager
 import com.hansung.sherpa.ui.login.LoginScreen
 import com.hansung.sherpa.ui.start.StartScreen
-import com.hansung.sherpa.ui.search.SearchScreen
+import com.hansung.sherpa.search.SearchScreen
 import com.hansung.sherpa.ui.signup.SignupScreen
 import com.hansung.sherpa.ui.specificroute.SpecificRouteScreen
 import com.hansung.sherpa.ui.theme.SherpaTheme

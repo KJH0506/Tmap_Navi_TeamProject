@@ -1,4 +1,4 @@
-package com.hansung.sherpa.ui.search
+package com.hansung.sherpa.search
 
 import android.util.Log
 import androidx.compose.foundation.background
