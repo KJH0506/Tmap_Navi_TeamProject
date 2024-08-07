@@ -70,9 +70,9 @@ class MainActivity : ComponentActivity(), OnMapReadyCallback {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = SherpaScreen.Login.name
+                        startDestination = SherpaScreen.Home.name
                     ){
-                        composable(route = "${SherpaScreen.Home.name}"){
+                        composable(route = "${SherpaScreen.Login.name}"){
                             LoginScreen(navController, Modifier.padding(innerPadding))
                         }
                         composable(route = "${SherpaScreen.Home.name}"){
