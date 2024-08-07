@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.hansung.sherpa.SherpaScreen
 
 @Composable
 fun LoginScreen(navController: NavController = rememberNavController(), modifier: Modifier = Modifier) {
@@ -36,12 +37,12 @@ fun LoginScreen(navController: NavController = rememberNavController(), modifier
 
         // 보호자 입력란
         Text("보호자 로그인 입력란")
-        CaregiverArea()
+        CaregiverArea(navController)
         Spacer(modifier = Modifier.height(50.dp))
 
         // 사용자 입력란
         Text("사용자 로그인 입력란")
-        ProtegeArea()
+        ProtegeArea(navController)
         Spacer(modifier = Modifier.height(50.dp))
 
         // 비밀번호 찾기, 회원가입 이동
@@ -61,7 +62,7 @@ fun LoginScreen(navController: NavController = rememberNavController(), modifier
             )
         }
         TextButton(
-            onClick = {},
+            onClick = {navController.navigate("${SherpaScreen.SignUp.name}")},
             colors= ButtonColors(
                 contentColor = Color(0xFF34DFD5),
                 containerColor = Color.Transparent,
@@ -79,7 +80,7 @@ fun LoginScreen(navController: NavController = rememberNavController(), modifier
 }
 
 @Composable
-fun CaregiverArea() {
+fun CaregiverArea(navController: NavController) {
     var idValue by remember { mutableStateOf("") }
     var passwordValue by remember { mutableStateOf("") }
 
@@ -105,7 +106,8 @@ fun CaregiverArea() {
         }
 
         TextButton(
-            onClick = {},
+            // TODO: 로그인 정보로 보호자 역할 분기해야 됨
+            onClick = {navController.navigate("${SherpaScreen.Home.name}")},
             colors= ButtonColors(
                 contentColor = Color.Black,
                 containerColor = Color(0xFF64FCD9),
@@ -123,7 +125,7 @@ fun CaregiverArea() {
 }
 
 @Composable
-fun ProtegeArea() {
+fun ProtegeArea(navController: NavController) {
 
     var idValue by remember { mutableStateOf("") }
     var passwordValue by remember { mutableStateOf("") }
@@ -150,7 +152,8 @@ fun ProtegeArea() {
         }
 
         TextButton(
-            onClick = {},
+            // TODO: 로그인 정보로 사용자 역할 분기해야 됨
+            onClick = {navController.navigate("${SherpaScreen.Home.name}")},
             colors= ButtonColors(
                 contentColor = Color.Black,
                 containerColor = Color(0xFF64FCD9),

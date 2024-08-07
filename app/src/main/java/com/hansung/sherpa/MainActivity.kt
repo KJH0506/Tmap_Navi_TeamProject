@@ -30,6 +30,7 @@ import com.hansung.sherpa.navigation.OnLocationChangeManager
 import com.hansung.sherpa.ui.login.LoginScreen
 import com.hansung.sherpa.ui.start.StartScreen
 import com.hansung.sherpa.ui.search.SearchScreen
+import com.hansung.sherpa.ui.signup.SignupScreen
 import com.hansung.sherpa.ui.specificroute.SpecificRouteScreen
 import com.hansung.sherpa.ui.theme.SherpaTheme
 import com.naver.maps.geometry.LatLng
@@ -78,6 +79,9 @@ class MainActivity : ComponentActivity(), OnMapReadyCallback {
                         }
                         composable(route = "${SherpaScreen.Login.name}"){
                             LoginScreen(navController, Modifier.padding(innerPadding))
+                        }
+                        composable(route = "${SherpaScreen.SignUp.name}") {
+                            SignupScreen(navController, Modifier.padding(innerPadding))
                         }
                         composable(route = "${SherpaScreen.Home.name}"){
                             HomeScreen(navController, Modifier.padding(innerPadding))

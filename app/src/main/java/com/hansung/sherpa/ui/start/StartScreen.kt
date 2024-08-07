@@ -55,7 +55,7 @@ fun StartScreen(navController: NavController = rememberNavController(), modifier
                     )
                 }
                 TextButton(
-                    onClick = {},
+                    onClick = {navController.navigate("${SherpaScreen.SignUp.name}")},
                     colors= ButtonColors(
                         contentColor = Color.Black,
                         containerColor = Color.White,
