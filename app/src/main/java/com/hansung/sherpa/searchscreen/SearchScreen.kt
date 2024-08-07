@@ -15,7 +15,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.hansung.sherpa.dialog.ErrorDialog
 import com.hansung.sherpa.itemsetting.TransportRoute
 
 /**
