@@ -1,4 +1,4 @@
-package com.hansung.sherpa.searchscreen
+package com.hansung.sherpa.ui.searchscreen
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height

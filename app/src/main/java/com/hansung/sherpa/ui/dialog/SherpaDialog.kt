@@ -1,4 +1,4 @@
-package com.hansung.sherpa.dialog
+package com.hansung.sherpa.ui.dialog
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
