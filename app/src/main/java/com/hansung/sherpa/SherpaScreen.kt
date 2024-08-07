@@ -8,6 +8,7 @@ enum class SherpaScreen {
     Home,
     Search,
     SpecificRoute,
+    Start,
     Login,
     SignUp
 }

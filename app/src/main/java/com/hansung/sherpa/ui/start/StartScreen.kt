@@ -1,4 +1,4 @@
-package com.hansung.sherpa.ui.login
+package com.hansung.sherpa.ui.start
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -23,7 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.hansung.sherpa.R
 
 @Composable
-fun LoginScreen(navController: NavController = rememberNavController(), modifier: Modifier = Modifier) {
+fun StartScreen(navController: NavController = rememberNavController(), modifier: Modifier = Modifier) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -77,5 +77,5 @@ fun LoginScreen(navController: NavController = rememberNavController(), modifier
 @Composable
 @Preview
 fun LogInPreview() {
-    LoginScreen()
+    StartScreen()
 }
