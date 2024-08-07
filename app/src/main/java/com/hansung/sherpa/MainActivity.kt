@@ -28,7 +28,7 @@ import com.hansung.sherpa.navigation.MyOnLocationChangeListener
 import com.hansung.sherpa.navigation.Navigation
 import com.hansung.sherpa.navigation.OnLocationChangeManager
 import com.hansung.sherpa.ui.start.StartScreen
-import com.hansung.sherpa.ui.searchscreen.SearchScreen
+import com.hansung.sherpa.ui.search.SearchScreen
 import com.hansung.sherpa.ui.specificroute.SpecificRouteScreen
 import com.hansung.sherpa.ui.theme.SherpaTheme
 import com.naver.maps.geometry.LatLng

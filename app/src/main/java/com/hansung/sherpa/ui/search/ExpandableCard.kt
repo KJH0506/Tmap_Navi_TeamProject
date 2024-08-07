@@ -1,4 +1,4 @@
-package com.hansung.sherpa.ui.searchscreen
+package com.hansung.sherpa.ui.search
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
