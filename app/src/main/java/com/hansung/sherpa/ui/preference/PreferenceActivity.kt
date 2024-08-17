@@ -29,7 +29,6 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -38,6 +37,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -56,6 +56,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.hansung.sherpa.ui.preference.caregiver.CaregiverSyncScreen
 import com.hansung.sherpa.ui.preference.emergency.EmergencySettingsScreen
 
 class PreferenceActivity : ComponentActivity() {
@@ -125,14 +126,21 @@ fun PreferenceScreen(
                     title = "긴급 연락처"
                 }
                 "알림 설정" -> {
-                    //AlarmSettingsScreen()
+                    AlarmSettingsScreen()
                     title = "알림"
+                }
+                "보호자 연동" -> {
+                    CaregiverSyncScreen()
+                    title = "보호자 연동"
                 }
                 else -> PreferenceItems { item ->
                     if (item == "알림 설정") {
                         selectedItem = item
                     }
                     else if(item == "긴급 연락처"){
+                        selectedItem = item
+                    }
+                    if (item == "보호자 연동") {
                         selectedItem = item
                     }
                     else {

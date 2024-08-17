@@ -209,7 +209,7 @@ class Navigation {
     }
     
     // 색상 값 변환 HEXACODE(#ffffff) -> INT(@ColorInt)
-    private fun convertIntToStr(color:Int) : Int {
+    fun convertIntToStr(color:Int) : Int {
         return ContextCompat.getColor(mainActivity, color)
     }
 
