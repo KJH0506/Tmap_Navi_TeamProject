@@ -1,6 +1,7 @@
 package com.hansung.sherpa.ui.login
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -147,6 +149,7 @@ fun FindAccountArea(navController: NavController) {
  */
 @Composable
 fun LoginArea(navController: NavController) {
+    val context = LocalContext.current
     var idValue by remember { mutableStateOf("") }
     var passwordValue by remember { mutableStateOf("") }
 
@@ -161,7 +164,10 @@ fun LoginArea(navController: NavController) {
         TextButton(
             // TODO: 로그인 정보로 계정 역할 분기해야 됨
             // TODO: 값 전송 시 공백 제거할 것
-            onClick = { if(login(navController, idValue, passwordValue)) return@TextButton },
+            onClick = { if(login(navController, idValue, passwordValue)){
+                Toast.makeText(context,"로그인 실패! 아이디 비밀번호를 확인해 주세요",Toast.LENGTH_SHORT).show()
+                return@TextButton }
+                      },
             colors= ButtonColors(
                 contentColor = Color.Black,
                 containerColor = SherpaColor,
@@ -240,7 +246,6 @@ fun login(navController: NavController, email: String, password: String) : Boole
     val loginResponse = UserManager().login(email, password)!!
     val data = loginResponse.data!!
     if(data.userId == 0 || data.userId == null) {
-        Log.d("explain", "login: null 반환")
         return true
     } else {
         StaticValue.userInfo = data
