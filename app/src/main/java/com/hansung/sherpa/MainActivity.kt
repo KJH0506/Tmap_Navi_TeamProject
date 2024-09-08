@@ -90,7 +90,7 @@ class MainActivity : ComponentActivity() {
 
     private val messageReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            val head = intent?.getStringExtra("title") ?: ""
+ㅊ            val head = intent?.getStringExtra("title") ?: ""
             val body = intent?.getStringExtra("body") ?: ""
 
             val parts = head.split("/")
@@ -179,12 +179,21 @@ class MainActivity : ComponentActivity() {
                         startDestination = SherpaScreen.Start.name
                     ){
                         composable(route = SherpaScreen.Start.name){
+                            MessageAlam(messageViewModel)
+                            ScheduleAlam(scheduleViewModel)
+
                             StartScreen(navController, Modifier.padding(innerPadding))
                         }
                         composable(route = SherpaScreen.Login.name){
+                            MessageAlam(messageViewModel)
+                            ScheduleAlam(scheduleViewModel)
+
                             LoginScreen(navController, Modifier.padding(innerPadding))
                         }
                         composable(route = SherpaScreen.SignUp.name) {
+                            MessageAlam(messageViewModel)
+                            ScheduleAlam(scheduleViewModel)
+
                             SignupScreen(navController, Modifier.padding(innerPadding))
                         }
                         composable(route = SherpaScreen.Home.name){
@@ -200,15 +209,21 @@ class MainActivity : ComponentActivity() {
                             }
                             MessageAlam(messageViewModel)
                             ScheduleAlam(scheduleViewModel)
+
                             HomeScreen(navController, Modifier.padding(innerPadding), partnerViewModel)
                         }
                         composable(route = "${SherpaScreen.Search.name}/{destinationValue}",
                             arguments = listOf(navArgument("destinationValue"){type = NavType.StringType})
                         ){
+                            MessageAlam(messageViewModel)
+                            ScheduleAlam(scheduleViewModel)
+
                             val destinationValue = it.arguments?.getString("destinationValue")!!
                             SearchScreen(navController, destinationValue, Modifier.padding(innerPadding))
                         }
                         composable(route = SherpaScreen.SpecificRoute.name){
+                            MessageAlam(messageViewModel)
+                            ScheduleAlam(scheduleViewModel)
 
                             // TODO: 여기서 위험 지역 요청함 ㅎㅎ
                             val list = mutableListOf<LatLng>()
