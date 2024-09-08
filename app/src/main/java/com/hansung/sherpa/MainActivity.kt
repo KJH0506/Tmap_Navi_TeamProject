@@ -90,7 +90,7 @@ class MainActivity : ComponentActivity() {
 
     private val messageReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-ㅊ            val head = intent?.getStringExtra("title") ?: ""
+            val head = intent?.getStringExtra("title") ?: ""
             val body = intent?.getStringExtra("body") ?: ""
 
             val parts = head.split("/")
