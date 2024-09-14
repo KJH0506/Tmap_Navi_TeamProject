@@ -156,16 +156,6 @@ fun CaregiverSyncScreen() {
         }
         carouselItems.addAll(apiList)
     }
-        listOf(
-            CarouselItem(0, R.drawable.appicon_dog, R.string.float_icon_1, "보호자", "useruser1"),
-            CarouselItem(1, R.drawable._2, R.string.float_icon_2, "사용자", "useruser2"),
-            CarouselItem(2, R.drawable._3, R.string.float_icon_3, "보호자3", "useruser3"),
-            CarouselItem(3, R.drawable._4, R.string.float_icon_4, "사용자4", "useruser4"),
-            CarouselItem(4, R.drawable._5, R.string.float_icon_5, "홈길동", "aaad1234@gmail.com"),
-            CarouselItem(5, R.drawable._6, R.string.float_icon_5, "홍길동동", "accbd1234@gmail.com"),
-            CarouselItem(6, R.drawable._7, R.string.float_icon_5, "홍동길", "abcd14@gmail.com"),
-            CarouselItem(7, R.drawable._8, R.string.float_icon_5, "길동홍", "abdd1212@gmail.com"),
-        )
 
     // 클릭한 항목의 상태를 저장하기 위한 상태 변수
     var selectedItem by remember { mutableStateOf<CarouselItem?>(null) }
