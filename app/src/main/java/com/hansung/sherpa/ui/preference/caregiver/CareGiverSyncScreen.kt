@@ -301,6 +301,7 @@ fun ItemDetailDialog(item: CarouselItem, onDismiss: () -> Unit) {
         confirmButton = {
             Button(onClick = {
                 requestCareGiver(item.email, sherpaDialog, showDialog)
+                onDismiss()
             }
                 , colors = ButtonColors(
                     contentColor = MaterialTheme.colorScheme.surface,

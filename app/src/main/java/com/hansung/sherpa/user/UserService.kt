@@ -4,6 +4,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -29,14 +30,20 @@ interface UserService {
     /**
      * 보호자 인증을 요청하는 API
      */
-    @GET("user/getLinkPermission/{caregiverEmail}")
-    fun getLinkPermissionService(@Path("caregiverEmail") body: String): Call<ResponseBody>
+    @GET("user/getLinkPermission/{caretakerId}/{caregiverEmail}")
+    fun getLinkPermissionService(@Path("caretakerId") userId: Int, @Path("caregiverEmail") body: String): Call<ResponseBody>
 
     /**
      * 사용자와 보호자의 관계를 얻는 API
      */
     @GET("userRelation/getUserRelation/{userId}")
     fun getRelationService(@Path("userId") userId:Int): Call<ResponseBody>
+
+    /**
+     * 사용자와 보호자의 관계 갱신해주는 API
+     */
+    @PATCH("userRelation/updateUserRelation")
+    fun updateRelationService(@Body body: UpdateUserRelationRequest): Call<ResponseBody>
 
     @GET("user/signupEmail/{email}")
     fun verificatonEmail(@Path("email") email:String): Call<ResponseBody>

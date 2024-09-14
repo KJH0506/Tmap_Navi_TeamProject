@@ -2,7 +2,6 @@ package com.hansung.sherpa.user
 
 import android.util.Log
 import com.google.gson.Gson
-import com.hansung.sherpa.BuildConfig
 import com.hansung.sherpa.StaticValue
 import com.hansung.sherpa.Url
 import com.hansung.sherpa.user.updateFcm.UpdateFcmRequest
@@ -222,7 +221,7 @@ class UserManager {
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()
                         .create(UserService::class.java)
-                        .getLinkPermissionService(caregiverEmail).execute()
+                        .getLinkPermissionService(StaticValue.userInfo.userId!!, caregiverEmail).execute()
                     //TODO: 잘못된 Email로 요청할 때 에러처리 해야한다.
                     val jsonString = response.body()?.string()?:"response is null"
 
@@ -269,6 +268,51 @@ class UserManager {
                         .build()
                         .create(UserService::class.java)
                         .getRelationService(userId).execute()
+                    val jsonString = response.body()?.string()?:"response is null"
+
+                    // 반환 실패에 대한 에러처리
+                    if(jsonString == "response is null") {
+                        Log.e("API Log:response(Null)", "UserManager.getRelation: 'response is null'")
+                        result = RelationResponse(404, "'reponse.body()' is null")
+                    }
+                    else {
+                        Log.i("API Log: Success", "getRelation 함수 실행 성공 ${result?.message}")
+                        result = Gson().fromJson(
+                            jsonString,
+                            RelationResponse::class.java
+                        )
+                    }
+                } catch(e: java.io.IOException){
+                    Log.e("API Log: IOException", "UserManager.getRelation: ${e.message}(e.message)")
+                    result = RelationResponse(404, "IOException: 네트워크 연결 실패")
+                }
+            }
+        }
+        return result?:RelationResponse(500, "에러 원인을 찾을 수 없음")
+    }
+
+    /**
+     * 사용자와 보호자의 관계를 얻는 함수
+     * ### 상태 코드
+     * 200: API 요청 성공
+     *
+     * 404: Null 값 반환
+     *
+     * 404: 네트워크 연결 실패
+     *
+     * 500: 에러 원인을 찾을 수 없음
+     */
+    fun updateRelation(relationRequest: UpdateUserRelationRequest): RelationResponse {
+        var result: RelationResponse? = null
+        runBlocking {
+            launch(Dispatchers.IO){
+                try{
+                    val response = Retrofit.Builder()
+                        .baseUrl(Url.SHERPA)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build()
+                        .create(UserService::class.java)
+                        .updateRelationService(relationRequest).execute()
                     val jsonString = response.body()?.string()?:"response is null"
 
                     // 반환 실패에 대한 에러처리
