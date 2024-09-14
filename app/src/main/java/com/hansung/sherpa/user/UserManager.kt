@@ -157,6 +157,51 @@ class UserManager {
     }
 
     /**
+     * 모든 보호자 리스트를 가져오는 함수
+     * ### 상태 코드
+     * 200: API 요청 성공
+     *
+     * 404: Null 값 반환
+     *
+     * 404: 네트워크 연결 실패
+     *
+     * 500: 에러 원인을 찾을 수 없음
+     */
+    fun getCaregiverUsersList(): UserListResponse {
+        var result: UserListResponse? = null
+        runBlocking {
+            launch(Dispatchers.IO){
+                try{
+                    val response = Retrofit.Builder()
+                        .baseUrl(Url.SHERPA)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build()
+                        .create(UserService::class.java)
+                        .getCaregiverList().execute()
+                    val jsonString = response.body()?.string()?:"response is null"
+
+                    // 반환 실패에 대한 에러처리
+                    if(jsonString == "response is null") {
+                        Log.e("API Log:response(Null)", "UserManager.getUser: 'response is null'")
+                        result = UserListResponse(404, "'reponse.body()' is null")
+                    }
+                    else {
+                        Log.i("API Log: Success", "getUser 함수 실행 성공 ${result?.message}")
+                        result = Gson().fromJson(
+                            jsonString,
+                            UserListResponse::class.java
+                        )
+                    }
+                }catch(e: java.io.IOException){
+                    Log.e("API Log: IOException", "UserManager.getUser: ${e.message}(e.message)")
+                    result = UserListResponse(404, "IOException: 네트워크 연결 실패")
+                }
+            }
+        }
+        return result?: UserListResponse(500, "에러 원인을 찾을 수 없음")
+    }
+
+    /**
      * 보호자 인증을 요청하는 함수
      * ### 상태 코드
      * 200: API 요청 성공

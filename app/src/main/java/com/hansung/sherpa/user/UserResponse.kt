@@ -20,6 +20,16 @@ data class UserResponse(
 )
 
 /**
+ * User1 리스트 객체를 반환 받을 때 사용하는 클래스
+ *
+ */
+data class UserListResponse(
+    val code: Int? = null,
+    val message: String? = null,
+    val data: List<User1>? = null
+)
+
+/**
  * 사용자가 보호자 userId를 반환 받을 때 사용하는 클래스
  *
  */

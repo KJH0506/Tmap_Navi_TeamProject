@@ -48,8 +48,10 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -76,6 +78,8 @@ import com.hansung.sherpa.ui.preference.caregiver.carousel.rememberCarouselState
 import com.hansung.sherpa.ui.theme.lightScheme
 import com.hansung.sherpa.user.UserManager
 import com.jakewharton.threetenabp.AndroidThreeTen
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 data class CarouselItem(
     val id: Int,
@@ -100,6 +104,18 @@ class CaregiverSyncActivity : ComponentActivity() {
     }
 }
 
+private enum class CodeStatus(val code: Int, val message: String) {
+    OK(200, "OK"),
+    NOT_FOUND(404, "Not Found"),
+    INTERNAL_SERVER_ERROR(500, "Internal Server Error");
+
+    companion object {
+        fun findByCode(code: Int): CodeStatus? {
+            return entries.find { it.code == code }
+        }
+    }
+}
+
 /**
  * 보호자 연동 요청 화면
  *
@@ -109,10 +125,39 @@ class CaregiverSyncActivity : ComponentActivity() {
 fun CaregiverSyncScreen() {
     var searchQuery by remember { mutableStateOf("") }
 
-    // sample data 값
-    val items =
+    val carouselItems = remember { mutableStateListOf<CarouselItem>() }
+    val sampleImageList = listOf<Int>(
+        R.drawable._1,
+        R.drawable._2,
+        R.drawable._3,
+        R.drawable._4,
+        R.drawable._5,
+        R.drawable._6,
+        R.drawable._7,
+        R.drawable._8,
+    )
+    LaunchedEffect(Unit) {
+        val apiList = withContext(Dispatchers.IO) {
+            val items = UserManager().getCaregiverUsersList()
+            val code = items.code ?: -1
+            if (CodeStatus.findByCode(code) == CodeStatus.OK) {
+                return@withContext items.data?.mapIndexed { index, user1 ->
+                    CarouselItem(
+                        id = user1.userId ?: -1,
+                        imageResId = sampleImageList[index % sampleImageList.size],
+                        contentDescriptionResId = R.string.app_name,
+                        name = user1.name ?: "이름 없음",
+                        email = user1.userAccount?.email ?: "이메일 없음"
+                    )
+                } ?: emptyList()
+            } else {
+                return@withContext emptyList()
+            }
+        }
+        carouselItems.addAll(apiList)
+    }
         listOf(
-            CarouselItem(0, R.drawable._1, R.string.float_icon_1, "보호자", "useruser1"),
+            CarouselItem(0, R.drawable.appicon_dog, R.string.float_icon_1, "보호자", "useruser1"),
             CarouselItem(1, R.drawable._2, R.string.float_icon_2, "사용자", "useruser2"),
             CarouselItem(2, R.drawable._3, R.string.float_icon_3, "보호자3", "useruser3"),
             CarouselItem(3, R.drawable._4, R.string.float_icon_4, "사용자4", "useruser4"),
@@ -131,7 +176,7 @@ fun CaregiverSyncScreen() {
     }
 
     // 검색 필터
-    val filteredItems = items.filter { item ->
+    val filteredItems = carouselItems.filter { item ->
         item.name.contains(searchQuery, ignoreCase = true) ||
                 item.email.contains(searchQuery, ignoreCase = true)
     }
@@ -162,7 +207,7 @@ fun CaregiverSyncScreen() {
         Spacer(modifier = Modifier.height(16.dp))
 
         MultiBrowseCarousel(
-            state = rememberCarouselState { items.count() },
+            state = rememberCarouselState { carouselItems.count() },
             modifier = Modifier
                 .width(350.dp)
                 .fillMaxHeight(),

@@ -43,4 +43,7 @@ interface UserService {
 
     @GET("user/signupTelNum/{telNum}")
     fun verificatonTelNum(@Path("telNum") telNum:String): Call<ResponseBody>
+
+    @GET("user/caregiver/list")
+    fun getCaregiverList(): Call<ResponseBody>
 }
