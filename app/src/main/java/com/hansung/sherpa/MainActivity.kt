@@ -51,6 +51,7 @@ import com.hansung.sherpa.sendInfo.receive.onChangedRTDBListener
 import com.hansung.sherpa.ui.account.login.LoginScreen
 import com.hansung.sherpa.ui.account.signup.SignupScreen
 import com.hansung.sherpa.ui.common.MessageAlam
+import com.hansung.sherpa.ui.common.PermissionAlam
 import com.hansung.sherpa.ui.common.ScheduleAlam
 import com.hansung.sherpa.ui.preference.PreferenceComposable
 import com.hansung.sherpa.ui.preference.calendar.CalendarScreen
@@ -75,6 +76,7 @@ class MainActivity : ComponentActivity() {
 
     // TODO: 여기 있는게 "알림" topic으로 FCM 전달 받는 뷰모델 ※ FCM pakage 참고
     private val messageViewModel: MessageViewModel by viewModels()
+    private val message2ViewModel: MessageViewModel by viewModels()
     private val scheduleViewModel: ScheduleViewModel by viewModels()
     private val partnerViewModel: PartnerViewModel by viewModels()
     private val caretakerViewModel: CaretakerViewModel by viewModels()
@@ -123,7 +125,7 @@ class MainActivity : ComponentActivity() {
                     val transportRoute = caregiverViewModel.startNavigation()
                     if(transportRoute != null) navController.navigate("${SherpaScreen.SpecificRoute.name}/$transportRoute")
                 }
-
+                "요청" -> message2ViewModel.updateValue(title, body)
                 else -> Log.e("FCM Log: Error", "FCM: message 형식 오류")
             }
         }
@@ -203,6 +205,7 @@ class MainActivity : ComponentActivity() {
                             }
                             MessageAlam(messageViewModel)
                             ScheduleAlam(scheduleViewModel)
+                            PermissionAlam(message2ViewModel)
                             HomeScreen(navController, Modifier.padding(innerPadding), partnerViewModel)
                         }
                         composable(route = "${SherpaScreen.Search.name}/{destinationValue}",
