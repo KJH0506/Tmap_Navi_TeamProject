@@ -11,8 +11,8 @@ Naver_Navi_TeamProject는 한이음ICT에서 진행하는 프로보노 멘토링
 > Sherpa는 보호자, 사용자 화면으로 구분되며 보호자가 사용자 화면을 원격으로 조작, 명령할 수 있다.
 <br>
 
-# 프로젝트 정보
-## 프로젝트 진행단체
+# 🚩 프로젝트 정보
+## 1️⃣ 프로젝트 진행단체
 개최 단체: [ICT 멘토링](https://www.hanium.or.kr/portal/business/ict/mainOverview.do)
 
 ## 프로젝트 설명
