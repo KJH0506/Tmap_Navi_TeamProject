@@ -6,9 +6,6 @@ package com.hansung.sherpa.ui.preference.calendar
 //import org.threeten.bp.format.DateTimeFormatter
 //import org.threeten.bp.format.TextStyle
 import android.os.Build
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -62,16 +59,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.hansung.sherpa.schedule.RouteManager
 import com.hansung.sherpa.schedule.ScheduleManager
 import com.hansung.sherpa.schedule.Schedules
-import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek
@@ -91,19 +89,6 @@ import java.util.Locale
  * 사용자 일정 관리를 위한 캘린더 액티비티
  */
 
-class CalendarActivity : ComponentActivity() {
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidThreeTen.init(this);
-        setContent {
-            CalendarScreen{
-                finish()
-            }
-        }
-    }
-}
-
 
 /**
  * @param finish : 뒤로가기 클릭 시 callback되는 람다 함수
@@ -115,7 +100,7 @@ class CalendarActivity : ComponentActivity() {
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CalendarScreen(
-    finish : () -> Unit
+    navController: NavController
 ){
     var scheduleDataList = remember { mutableStateListOf<ScheduleData>() }
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -237,7 +222,7 @@ fun CalendarScreen(
                 },
                 // 뒤로가기 버튼 클릭 시 finish 람다 함수 호출
                 navigationIcon = {
-                    IconButton(onClick = { finish() }) {
+                    IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "뒤로가기")
@@ -624,5 +609,5 @@ fun CalendarHeader(
 @Preview
 @Composable
 fun PreviewCalendarPreference() {
-    CalendarScreen{}
+    CalendarScreen(navController = NavController(LocalContext.current))
 }

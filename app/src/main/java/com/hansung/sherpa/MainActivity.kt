@@ -11,6 +11,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
@@ -50,16 +51,10 @@ import com.hansung.sherpa.sendInfo.receive.onChangedRTDBListener
 import com.hansung.sherpa.ui.account.login.LoginScreen
 import com.hansung.sherpa.ui.account.signup.SignupScreen
 import com.hansung.sherpa.ui.common.MessageAlam
+import com.hansung.sherpa.ui.common.PermissionAlam
 import com.hansung.sherpa.ui.common.ScheduleAlam
-import com.hansung.sherpa.ui.preference.AlarmSettingsActivity
-import com.hansung.sherpa.ui.preference.PreferenceScreen
-import com.hansung.sherpa.ui.preference.PreferenceScreenOption
-import com.hansung.sherpa.ui.preference.calendar.CalendarActivity
-import com.hansung.sherpa.ui.preference.caregiver.CaregiverSyncActivity
-import com.hansung.sherpa.ui.preference.emergency.EmergencySettingsActivity
-import com.hansung.sherpa.ui.preference.policyinformation.PolicyInfoActivity
-import com.hansung.sherpa.ui.preference.updateinformation.UpdateInfoActivity
-import com.hansung.sherpa.ui.preference.usersetting.UserSettingActivity
+import com.hansung.sherpa.ui.preference.PreferenceComposable
+import com.hansung.sherpa.ui.preference.calendar.CalendarScreen
 import com.hansung.sherpa.ui.searchscreen.SearchScreen
 import com.hansung.sherpa.ui.specificroute.SpecificRouteScreen
 import com.hansung.sherpa.ui.start.StartScreen
@@ -81,10 +76,12 @@ class MainActivity : ComponentActivity() {
 
     // TODO: 여기 있는게 "알림" topic으로 FCM 전달 받는 뷰모델 ※ FCM pakage 참고
     private val messageViewModel: MessageViewModel by viewModels()
+    private val message2ViewModel: MessageViewModel by viewModels()
     private val scheduleViewModel: ScheduleViewModel by viewModels()
     private val partnerViewModel: PartnerViewModel by viewModels()
     private val caretakerViewModel: CaretakerViewModel by viewModels()
     private val caregiverViewModel: CaregiverViewModel by viewModels()
+
 
     private val messageReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -128,7 +125,7 @@ class MainActivity : ComponentActivity() {
                     val transportRoute = caregiverViewModel.startNavigation()
                     if(transportRoute != null) navController.navigate("${SherpaScreen.SpecificRoute.name}/$transportRoute")
                 }
-
+                "요청" -> message2ViewModel.updateValue(title, body)
                 else -> Log.e("FCM Log: Error", "FCM: message 형식 오류")
             }
         }
@@ -162,6 +159,14 @@ class MainActivity : ComponentActivity() {
             .database(BuildConfig.FIREBASE_RTDB_URL)
             .reference
         StaticValue.ref = database
+
+        StaticValue.pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+                Log.d("PhotoPicker", "Selected URI: $uri")
+            } else {
+                Log.d("PhotoPicker", "No media selected")
+            }
+        }
 
         setContent {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -200,6 +205,7 @@ class MainActivity : ComponentActivity() {
                             }
                             MessageAlam(messageViewModel)
                             ScheduleAlam(scheduleViewModel)
+                            PermissionAlam(message2ViewModel)
                             HomeScreen(navController, Modifier.padding(innerPadding), partnerViewModel)
                         }
                         composable(route = "${SherpaScreen.Search.name}/{destinationValue}",
@@ -220,43 +226,10 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(route = SherpaScreen.Preference.name){
-                            PreferenceScreen { screenName ->
-                                when(screenName){
-                                    PreferenceScreenOption.CALENDAR -> {
-                                        val intent = Intent(this@MainActivity, CalendarActivity::class.java)
-                                        startActivity(intent)
-                                    }
-                                    PreferenceScreenOption.USER -> {
-                                        val intent = Intent(this@MainActivity, UserSettingActivity::class.java)
-                                        startActivity(intent)
-                                    }
-                                    PreferenceScreenOption.EMERGENCY -> {
-                                        val intent = Intent(this@MainActivity, EmergencySettingsActivity::class.java)
-                                        startActivity(intent)
-                                    }
-                                    PreferenceScreenOption.CAREGIVER -> {
-                                        val intent = Intent(this@MainActivity, CaregiverSyncActivity::class.java)
-                                        startActivity(intent)
-                                    }
-                                    PreferenceScreenOption.NOTIFICATION -> {
-                                        val intent = Intent(this@MainActivity, AlarmSettingsActivity::class.java)
-                                        startActivity(intent)
-                                    }
-                                    PreferenceScreenOption.APP_INFORMATION -> {
-                                        val intent = Intent(this@MainActivity, UpdateInfoActivity::class.java)
-                                        startActivity(intent)
-                                    }
-                                    PreferenceScreenOption.PRIVACY_POLICY -> {
-                                        val intent = Intent(this@MainActivity, PolicyInfoActivity::class.java)
-                                        startActivity(intent)
-                                    }
-                                    else -> { } // TODO: 처리
-                                }
-                            }
+                            PreferenceComposable(navController = navController)
                         }
                         composable(route = SherpaScreen.CALENDAR.name){
-                            val intent = Intent(this@MainActivity, CalendarActivity::class.java)
-                            startActivity(intent)
+                            CalendarScreen(navController = navController)
                         }
                     }
                 }

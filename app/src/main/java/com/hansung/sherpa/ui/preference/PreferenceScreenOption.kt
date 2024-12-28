@@ -11,5 +11,5 @@ enum class PreferenceScreenOption {
     EMAIL_INQUIRY,
     APP_INFORMATION,
     PRIVACY_POLICY,
-    EXIT
+    PreferenceScreen
 }
