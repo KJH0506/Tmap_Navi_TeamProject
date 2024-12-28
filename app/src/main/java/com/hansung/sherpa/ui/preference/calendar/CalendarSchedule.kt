@@ -421,5 +421,4 @@ fun cloneScheduleData(scheduleData: ScheduleData): ScheduleData {
 @Preview
 @Composable
 fun PreView1() {
-    CalendarScreen{}
 }

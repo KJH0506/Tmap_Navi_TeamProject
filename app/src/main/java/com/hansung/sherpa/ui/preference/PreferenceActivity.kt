@@ -1,10 +1,10 @@
 package com.hansung.sherpa.ui.preference
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
+import android.os.Build
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,6 +33,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -53,68 +54,70 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.hansung.sherpa.ui.preference.calendar.CalendarActivity
-import com.hansung.sherpa.ui.preference.policyinformation.PolicyInfoActivity
-import com.hansung.sherpa.ui.preference.updateinformation.UpdateInfoActivity
-import com.hansung.sherpa.ui.preference.usersetting.UserSettingActivity
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.hansung.sherpa.StaticValue
+import com.hansung.sherpa.ui.preference.calendar.CalendarScreen
+import com.hansung.sherpa.ui.preference.caregiver.CaregiverSyncScreen
+import com.hansung.sherpa.ui.preference.emergency.EmergencySettingsScreen
+import com.hansung.sherpa.ui.preference.policyinformation.PolicyComposable
+import com.hansung.sherpa.ui.preference.updateinformation.UpdateInfoComposable
+import com.hansung.sherpa.ui.preference.usersetting.UserSettingScreen
+import com.hansung.sherpa.ui.theme.lightScheme
 
 data class PreferenceItemData(val title : String, val screenOption : PreferenceScreenOption)
 
-class PreferenceActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PreferenceScreen { screenOption ->
-                when(screenOption){
-                    PreferenceScreenOption.USER -> {
-                        val intent = Intent(this, UserSettingActivity::class.java)
-                        startActivity(intent)
-                    }
-                    PreferenceScreenOption.CALENDAR -> {
-                        val intent = Intent(this, CalendarActivity::class.java)
-                        startActivity(intent)
-                    }
-//                    PreferenceScreenOption.NOTICEBOARD -> TODO()
-//                    PreferenceScreenOption.CALL_INQUIRY -> TODO()
-//                    PreferenceScreenOption.EMAIL_INQUIRY -> TODO()
-                    else -> { finish() }
-                }
-            }
-        }
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun PreferenceComposable(navController: NavController){
+    PreferenceScreen {
+        navController.popBackStack()
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PreferenceScreen(
-    callback : (PreferenceScreenOption) -> Unit
+    onFinish : () -> Unit
 ){
-    Scaffold (
-        topBar = {
-            CenterAlignedTopAppBar(
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.White,
-                    titleContentColor = Color.DarkGray
-                ),
 
-                title = {
-                    Text(
-                        text = "설정",
-                        style = TextStyle(
-                            fontFamily = FontFamily.Cursive,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold)
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { callback(PreferenceScreenOption.EXIT) }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "뒤로가기")
-                    }
-                },
-            )
+    val navController = rememberNavController()
+    val currentBackStackEntry = navController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStackEntry.value?.destination?.route
+    Scaffold (
+
+        topBar = {
+            if(currentRoute == PreferenceScreenOption.PreferenceScreen.name) {
+                CenterAlignedTopAppBar(
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = Color.White,
+                        titleContentColor = Color.DarkGray
+                    ),
+
+                    title = {
+                        Text(
+                            text = "설정",
+                            style = TextStyle(
+                                fontFamily = FontFamily.Cursive,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold)
+                        )
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = { onFinish() }) {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowBack,
+                                contentDescription = "뒤로가기")
+                        }
+                    },
+                )
+            }
         },
     ){
     innerPadding ->
@@ -123,15 +126,49 @@ fun PreferenceScreen(
                 .padding(innerPadding),
             color = Color.White
         ) {
-            PreferenceItems(callback)
+            PreferenceItems(navController)
+
+            NavHost(navController = navController, startDestination = PreferenceScreenOption.PreferenceScreen.name) {
+                composable(route = PreferenceScreenOption.CALENDAR.name){
+                    CalendarScreen(navController = navController)
+                }
+                composable(route = PreferenceScreenOption.CAREGIVER.name){
+                    MaterialTheme(colorScheme = lightScheme) {
+                        TopAppBarScreen( title = "보호자 연동",
+                            { navController.popBackStack() }, { CaregiverSyncScreen() }
+                        )
+                    }
+                }
+                composable(route = PreferenceScreenOption.EMERGENCY.name){
+                    EmergencySettingsScreen { navController.popBackStack() }
+                }
+                composable(route = PreferenceScreenOption.PRIVACY_POLICY.name){
+                    PolicyComposable{navController.popBackStack()}
+                }
+                composable(route = PreferenceScreenOption.APP_INFORMATION.name){
+                    UpdateInfoComposable { navController.popBackStack() }
+                }
+                composable(route = PreferenceScreenOption.USER.name){
+                    UserSettingScreen(
+                        pickMediaCallback = { StaticValue.pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
+                        onFinish = { navController.popBackStack()}
+                    )
+                }
+                composable(route = PreferenceScreenOption.PreferenceScreen.name) {
+                    // TODO: 추후 수정 
+                }
+            }
         }
     }
 }
 
 @Composable
 fun PreferenceItems(
-    callback : (PreferenceScreenOption) -> Unit
+    navController: NavController
 ){
+    val callback : (PreferenceScreenOption) -> Unit = { preferenceScreenOption ->
+        navController.navigate(preferenceScreenOption.name)
+    }
     LazyColumn{
         item {
             Divider(text = "사용자")
@@ -255,5 +292,4 @@ fun PreferenceItem(
 @Preview
 @Composable
 fun PreviewPreferenceScreen(){
-    PreferenceScreen(){}
 }
