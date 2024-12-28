@@ -35,3 +35,12 @@ class LoginRequest (
     @SerializedName("email") val email: String,
     @SerializedName("password") val password: String
 )
+
+/**
+ * 보호자 피보호자 관계를 갱신하기 위한 클래스
+ */
+data class UpdateUserRelationRequest (
+    @SerializedName("caretakerId") private val caretakerId: Int = 0,
+    @SerializedName("caregiverId") private val caregiverId: Int = 0,
+    @SerializedName("relation") private val relation: String? = null
+)
